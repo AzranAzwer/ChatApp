@@ -1,15 +1,12 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
-  container: { paddingHorizontal: 18 },
-  header: { marginTop: 10 },
-  iconContainer: {
+  title: {
     paddingTop: 30,
     alignItems: 'center',
   },
   textInpuContainer: {
-    marginTop: 16,
-    justifyContent: 'center',
+    marginTop: 80,
     alignItems: 'center',
   },
   textContainer: {

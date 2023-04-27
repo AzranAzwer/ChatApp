@@ -14,7 +14,11 @@ export const AuthNavigator = () => {
         component={LoginScreen}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="AppStack" component={AppNavigator} />
+      <Stack.Screen
+        name="AppStack"
+        component={AppNavigator}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };

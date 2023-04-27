@@ -1,9 +1,10 @@
 import {ReturnKeyType} from 'react-native/types';
 
-export interface C_TextInputProps {
+export interface T_TextInputProps {
   placeholder: string;
-  onChangeText: () => void;
+  onChangeText: (value: string) => void;
   value: string;
   returnKeyType?: ReturnKeyType;
-  autoCapitalize: string;
+  autoCapitalize: 'none' | 'sentences' | 'words' | 'characters' | undefined;
+  marginTop?: number;
 }

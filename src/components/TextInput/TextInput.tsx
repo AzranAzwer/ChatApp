@@ -1,8 +1,7 @@
 import React from 'react';
 import {TextInput as TextInputElement} from 'react-native';
-import {C_TextInputProps} from './TextInputTypes';
-
-const T_TextInputProps;
+import {T_TextInputProps} from './TextInputTypes';
+import {styles} from './TextInput.style';
 
 export const TextInput = ({
   placeholder,
@@ -10,11 +9,14 @@ export const TextInput = ({
   value,
   returnKeyType,
   autoCapitalize,
-}): C_TextInputProps => {
+  marginTop,
+}: T_TextInputProps) => {
   return (
     <TextInputElement
+      style={{...styles.container, marginTop}}
       value={value}
       placeholder={placeholder}
+      placeholderTextColor="#808080"
       onChangeText={onChangeText}
       returnKeyType={returnKeyType}
       autoCapitalize={autoCapitalize}
