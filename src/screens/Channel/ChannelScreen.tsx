@@ -40,7 +40,7 @@ const ChannelScreen = () => {
     return (
       <TouchableOpacity
         style={styles.rowContainer}
-        onPress={() => navigation.navigate('MessageScreen')}>
+        onPress={() => navigation.navigate('MessageScreen', item)}>
         <View style={styles.thumbnailContainer}>
           {item?.img ? (
             <Image

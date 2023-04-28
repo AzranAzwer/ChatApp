@@ -4,4 +4,5 @@ export const Colors = {
   error: 'red',
   white: 'white',
   black: 'black',
+  green: 'green',
 };

@@ -24,7 +24,13 @@ export const AppNavigator = () => {
           headerShadowVisible: false,
         })}
       />
-      <Stack.Screen name="MessageScreen" component={MessageScreen} />
+      <Stack.Screen
+        name="MessageScreen"
+        component={MessageScreen}
+        options={({route}) => ({
+          headerTitle: route?.params?.name,
+        })}
+      />
     </Stack.Navigator>
   );
 };
