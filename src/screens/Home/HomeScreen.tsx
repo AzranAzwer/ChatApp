@@ -45,7 +45,7 @@ const HomeScreen = () => {
     return (
       <TouchableOpacity
         style={{...styles.centerRow, marginTop: idx !== 0 ? 25 : 0}}
-        onPress={() => navigation.navigate('ChannelScreen')}>
+        onPress={() => navigation.navigate('ChannelScreen', item)}>
         <View style={styles.groupContainer}>
           {item?.img ? (
             <Image

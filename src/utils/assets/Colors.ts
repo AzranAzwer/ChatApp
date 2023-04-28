@@ -3,4 +3,5 @@ export const Colors = {
   secondary: 'grey',
   error: 'red',
   white: 'white',
+  black: 'black',
 };
