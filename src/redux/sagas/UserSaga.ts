@@ -1,7 +1,7 @@
 import {put, takeLatest} from 'redux-saga/effects';
 import {T_UserActionTypes} from '../action/ActionTypes';
 
-export function* UserSearchExecuteEffect() {
+export function* UserLoginExecuteEffect() {
   try {
     yield takeLatest(
       T_UserActionTypes.USER_LOGIN_EXECUTE,

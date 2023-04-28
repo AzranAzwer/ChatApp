@@ -7,4 +7,5 @@ export interface T_TextInputProps {
   returnKeyType?: ReturnKeyType;
   autoCapitalize: 'none' | 'sentences' | 'words' | 'characters' | undefined;
   marginTop?: number;
+  borderColor?: string;
 }

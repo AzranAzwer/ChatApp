@@ -1,3 +1,3 @@
-export type T_ScreenNavigationType = {
+export type T_NavigationType = {
   navigate: (screen: string) => void;
 };

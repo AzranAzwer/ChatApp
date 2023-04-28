@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
-import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import _ from 'lodash';
 
-import {T_ScreenNavigationType} from '../ScreenTypes';
-import {Styles} from '../../utils/global/style';
 import {styles} from './LoginScreen.style';
 import {TextInput} from '../../components';
 import {T_LoginData} from './Logintypes';
 import {Button} from '../../components/Button';
+import {T_NavigationType} from '../../utils/global/Types';
+import {Colors} from '../../utils/assets/Colors';
 
 const LoginScreen = () => {
-  const navigation: T_ScreenNavigationType = useNavigation();
+  const navigation: T_NavigationType = useNavigation();
   const [loginData, setLoginData] = useState<T_LoginData>({
     username: '',
     password: '',
@@ -29,32 +29,29 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView style={Styles.ScreenContainer}>
-      <View style={styles.title}>
-        <Text
-          style={{
-            fontWeight: '600',
-            fontSize: 36,
-            marginTop: 45,
-          }}>
-          Login
-        </Text>
+    <SafeAreaView style={styles.ScreenContainer}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.titleText}>Login</Text>
       </View>
       <View style={styles.textInpuContainer}>
         <TextInput
           placeholder="Enter Username"
           onChangeText={value => onChangeText('username', value)}
           value={loginData.username}
+          borderColor={Colors.secondary}
           returnKeyType="next"
           autoCapitalize="none"
         />
-        <View>
-          {/* {emailError ? (
-            <Text style={{marginTop: 8, fontSize: 12, color: 'red'}}>
-              Enter Correct Username
-            </Text>
-          ) : null} */}
-        </View>
+        {/* <View style={{width: '80%'}}>
+          <Text
+            style={{
+              marginTop: 3,
+              fontSize: 12,
+              color: 'red',
+            }}>
+            Enter Correct Username
+          </Text>
+        </View> */}
 
         <TextInput
           placeholder="Enter Password"
@@ -62,19 +59,19 @@ const LoginScreen = () => {
           value={loginData.password}
           returnKeyType="done"
           autoCapitalize="none"
-          marginTop={25}
+          borderColor="red"
+          marginTop={18}
         />
-        <View>
-          {/* {isError ? (
-            <Text
-              marginTop={8}
-              fontWeight="400"
-              lineHeight={16}
-              fontSize={12}
-              color={Colors.Red}>
-              {TextElements.NO_ACCOUNTS_FOUNDS}
-            </Text>
-          ) : null} */}
+
+        <View style={{width: '80%'}}>
+          <Text
+            style={{
+              marginTop: 3,
+              fontSize: 12,
+              color: Colors.error,
+            }}>
+            Enter Correct password
+          </Text>
         </View>
 
         <Button
@@ -83,15 +80,15 @@ const LoginScreen = () => {
           borderRadius={15}
           marginTop={40}
           title="Login"
-          textColor="white"
+          textColor={Colors.white}
           onClick={onSubmit}
           disabled={
             _.isEmpty(loginData.username) || _.isEmpty(loginData.password)
           }
           backgroundColor={
             _.isEmpty(loginData.username) || _.isEmpty(loginData.password)
-              ? 'grey'
-              : '#6082B6'
+              ? Colors.secondary
+              : Colors.primary
           }
         />
       </View>

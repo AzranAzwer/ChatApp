@@ -1,29 +1,21 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
-  title: {
+  ScreenContainer: {
+    flex: 1,
+    paddingHorizontal: 30,
+  },
+  titleContainer: {
     paddingTop: 30,
     alignItems: 'center',
+  },
+  titleText: {
+    fontWeight: '600',
+    fontSize: 36,
+    marginTop: 45,
   },
   textInpuContainer: {
     marginTop: 80,
     alignItems: 'center',
-  },
-  textContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 16,
-    marginBottom: 24,
-    width: '100%',
-  },
-  rememberTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  bottomContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 34,
   },
 });
