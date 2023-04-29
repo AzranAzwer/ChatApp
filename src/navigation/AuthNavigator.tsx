@@ -23,13 +23,10 @@ export const AuthNavigator = () => {
     }
   }, [currentUser]);
 
-  console.log('userData', userData);
-
   useEffect(() => {
     const getData = async () => {
       const jsonValue = await AsyncStorage.getItem('@user_Data');
       const data = jsonValue != null ? JSON.parse(jsonValue) : null;
-      console.log('data', data);
       if (data) {
         dispatch(userLogin(data) as any);
       }

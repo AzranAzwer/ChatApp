@@ -34,7 +34,6 @@ const reducer = (
     }
 
     case T_UserActionTypes.USER_LOGOUT_SUCCESS: {
-      console.log('logout pressed');
       return {
         username: undefined,
         password: undefined,

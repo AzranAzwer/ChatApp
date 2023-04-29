@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   Text,
@@ -7,7 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -15,8 +15,7 @@ import {styles} from './HomeScreen.style';
 import {T_NavigationType} from '../../utils/global/Types';
 import {Button} from '../../components/Button';
 import {Colors} from '../../utils/assets/Colors';
-import {userLogin, userLogout} from '../../redux/action/LoginAction';
-import {GetCurrentUser} from '../../redux/selectors/UserSelectors';
+import {userLogout} from '../../redux/action/LoginAction';
 
 export interface T_GroupData {
   id: number;
@@ -27,7 +26,6 @@ export interface T_GroupData {
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-  const currentUser = useSelector(GetCurrentUser());
   const navigation: T_NavigationType = useNavigation();
   const data: T_GroupData[] = [
     {
@@ -47,16 +45,6 @@ const HomeScreen = () => {
       thumbName: 'OG',
     },
   ];
-  console.log('currentUser', currentUser);
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const jsonValue = await AsyncStorage.getItem('@user_Data');
-  //     const data = jsonValue != null ? JSON.parse(jsonValue) : null;
-  //     dispatch(userLogin(data) as any);
-  //   };
-  //   getData();
-  // }, [dispatch]);
-
   const renderItem = (item: T_GroupData, idx: number) => {
     return (
       <TouchableOpacity
@@ -83,7 +71,6 @@ const HomeScreen = () => {
     await AsyncStorage.removeItem('@user_Data');
     dispatch(userLogout() as any);
 
-    // navigation.navigate('LoginScreen');
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
