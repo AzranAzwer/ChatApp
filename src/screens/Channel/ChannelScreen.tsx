@@ -3,6 +3,8 @@ import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import {styles} from './ChannelScreen.style';
 import {useNavigation} from '@react-navigation/native';
 import {T_NavigationType} from '../../utils/global/Types';
+import {GetCurrentUser} from '../../redux/selectors/UserSelectors';
+import {useSelector} from 'react-redux';
 
 export interface T_ChannelDataProps {
   id: number;
@@ -14,7 +16,8 @@ export interface T_ChannelDataProps {
 
 const ChannelScreen = () => {
   const navigation: T_NavigationType = useNavigation();
-  const data: T_ChannelDataProps[] = [
+  const currentUser = useSelector(GetCurrentUser());
+  const userList1: T_ChannelDataProps[] = [
     {
       id: 1032,
       name: 'Alex P.',
@@ -24,15 +27,25 @@ const ChannelScreen = () => {
     },
     {
       id: 1098,
+      name: 'Test user',
+      thumbName: 'TS',
+      date: '  Apr 14 2023',
+    },
+  ];
+
+  const userList2: T_ChannelDataProps[] = [
+    {
+      id: 1098,
       name: 'Bob M.',
+      img: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80',
       thumbName: 'BM',
       date: '  Apr 14 2023',
     },
     {
-      id: 1074,
-      name: 'Merk H.',
-      thumbName: 'MH',
-      date: '  Apr 05 2023',
+      id: 1032,
+      name: 'Test user',
+      thumbName: 'TS',
+      date: '  Apr 14 2023',
     },
   ];
 
@@ -64,7 +77,10 @@ const ChannelScreen = () => {
   return (
     <View style={styles.ScreenContainer}>
       <View>
-        <FlatList data={data} renderItem={({item}) => renderItem(item)} />
+        <FlatList
+          data={currentUser.username === 'Alex' ? userList2 : userList1}
+          renderItem={({item}) => renderItem(item)}
+        />
       </View>
     </View>
   );

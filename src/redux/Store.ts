@@ -1,7 +1,7 @@
 import {reduxBatch} from '@manaflair/redux-batch';
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import {rootReducer} from './reducers/index';
+import {rootReducer, rootSaga} from './Root';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,5 +19,9 @@ const store = configureStore({
   middleware,
   enhancers: [reduxBatch],
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+
+sagaMiddleware.run(rootSaga);
 
 export default store;

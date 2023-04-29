@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   Text,
@@ -7,11 +7,16 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {CommonActions, useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {styles} from './HomeScreen.style';
-import {useNavigation} from '@react-navigation/native';
 import {T_NavigationType} from '../../utils/global/Types';
 import {Button} from '../../components/Button';
 import {Colors} from '../../utils/assets/Colors';
+import {userLogin, userLogout} from '../../redux/action/LoginAction';
+import {GetCurrentUser} from '../../redux/selectors/UserSelectors';
 
 export interface T_GroupData {
   id: number;
@@ -21,6 +26,8 @@ export interface T_GroupData {
 }
 
 const HomeScreen = () => {
+  const dispatch = useDispatch();
+  const currentUser = useSelector(GetCurrentUser());
   const navigation: T_NavigationType = useNavigation();
   const data: T_GroupData[] = [
     {
@@ -40,6 +47,15 @@ const HomeScreen = () => {
       thumbName: 'OG',
     },
   ];
+  console.log('currentUser', currentUser);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const jsonValue = await AsyncStorage.getItem('@user_Data');
+  //     const data = jsonValue != null ? JSON.parse(jsonValue) : null;
+  //     dispatch(userLogin(data) as any);
+  //   };
+  //   getData();
+  // }, [dispatch]);
 
   const renderItem = (item: T_GroupData, idx: number) => {
     return (
@@ -63,6 +79,19 @@ const HomeScreen = () => {
     );
   };
 
+  const Logout = async () => {
+    await AsyncStorage.removeItem('@user_Data');
+    dispatch(userLogout() as any);
+
+    // navigation.navigate('LoginScreen');
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'LoginScreen'}],
+      }),
+    );
+  };
+
   const renderFooter = () => {
     return (
       <Button
@@ -71,7 +100,7 @@ const HomeScreen = () => {
         borderRadius={8}
         title="Logout"
         textColor={Colors.white}
-        onClick={() => {}}
+        onClick={Logout}
         backgroundColor={Colors.secondary}
       />
     );

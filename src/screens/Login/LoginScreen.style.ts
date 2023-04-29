@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {Colors} from '../../utils/assets/Colors';
 
 export const styles = StyleSheet.create({
   ScreenContainer: {
@@ -17,5 +18,13 @@ export const styles = StyleSheet.create({
   textInpuContainer: {
     marginTop: 80,
     alignItems: 'center',
+  },
+  errorMessage: {
+    width: '80%',
+    marginTop: 30,
+  },
+  errorText: {
+    fontSize: 12,
+    color: Colors.error,
   },
 });

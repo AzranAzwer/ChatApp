@@ -1,14 +1,12 @@
 import {T_UserActionTypes, UserDispatchTypes} from '../action/ActionTypes';
 
 export interface I_UserState {
-  isLoading: boolean;
+  isLoading?: boolean;
   username?: string;
   password?: string;
 }
 
-const defaultState: I_UserState = {
-  isLoading: false,
-};
+const defaultState: I_UserState | null = {};
 
 const reducer = (
   state: I_UserState = defaultState,
@@ -32,7 +30,20 @@ const reducer = (
     case T_UserActionTypes.USER_LOGIN_FAILED: {
       return {
         ...state,
-        isLoading: false,
+      };
+    }
+
+    case T_UserActionTypes.USER_LOGOUT_SUCCESS: {
+      console.log('logout pressed');
+      return {
+        username: undefined,
+        password: undefined,
+      };
+    }
+
+    case T_UserActionTypes.USER_LOGOUT_FAILED: {
+      return {
+        ...state,
       };
     }
 

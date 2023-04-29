@@ -13,8 +13,8 @@ export const userLogin =
     });
   };
 
-// export const decrementValue = () => dispatch => {
-//   dispatch({
-//     type: T_UserActionTypes.DECREMENT_VALUE_SUCCESS,
-//   });
-// };
+export const userLogout = () => (dispatch: Dispatch<UserDispatchTypes>) => {
+  dispatch({
+    type: T_UserActionTypes.USER_LOGOUT_SUCCESS,
+  });
+};

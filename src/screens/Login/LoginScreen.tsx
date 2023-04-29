@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import _ from 'lodash';
+import {useDispatch} from 'react-redux';
 
 import {styles} from './LoginScreen.style';
 import {TextInput} from '../../components';
@@ -9,15 +10,20 @@ import {T_LoginData} from './Logintypes';
 import {Button} from '../../components/Button';
 import {T_NavigationType} from '../../utils/global/Types';
 import {Colors} from '../../utils/assets/Colors';
+import {users} from '../../utils/constants/UserData';
+import {userLogin} from '../../redux/action/LoginAction';
 
 const LoginScreen = () => {
+  const dispatch = useDispatch();
   const navigation: T_NavigationType = useNavigation();
+  const [error, setError] = useState(false);
   const [loginData, setLoginData] = useState<T_LoginData>({
     username: '',
     password: '',
   });
 
   const onChangeText = (key: string, value: string) => {
+    setError(false);
     setLoginData({
       ...loginData,
       [key]: value,
@@ -25,7 +31,14 @@ const LoginScreen = () => {
   };
 
   const onSubmit = () => {
-    navigation.navigate('AppStack');
+    // const results = _.some(users, loginData);
+    if (_.some(users, loginData)) {
+      dispatch(userLogin(loginData) as any);
+      navigation.navigate('AppStack');
+    } else {
+      setError(true);
+    }
+    // ;
   };
 
   return (
@@ -38,20 +51,10 @@ const LoginScreen = () => {
           placeholder="Enter Username"
           onChangeText={value => onChangeText('username', value)}
           value={loginData.username}
-          borderColor={Colors.secondary}
+          borderColor={error ? Colors.error : Colors.secondary}
           returnKeyType="next"
           autoCapitalize="none"
         />
-        {/* <View style={{width: '80%'}}>
-          <Text
-            style={{
-              marginTop: 3,
-              fontSize: 12,
-              color: 'red',
-            }}>
-            Enter Correct Username
-          </Text>
-        </View> */}
 
         <TextInput
           placeholder="Enter Password"
@@ -59,26 +62,20 @@ const LoginScreen = () => {
           value={loginData.password}
           returnKeyType="done"
           autoCapitalize="none"
-          borderColor="red"
+          borderColor={error ? Colors.error : Colors.secondary}
           marginTop={18}
         />
-
-        <View style={{width: '80%'}}>
-          <Text
-            style={{
-              marginTop: 3,
-              fontSize: 12,
-              color: Colors.error,
-            }}>
-            Enter Correct password
-          </Text>
-        </View>
+        {error && (
+          <View style={styles.errorMessage}>
+            <Text style={styles.errorText}>Enter Correct user data !</Text>
+          </View>
+        )}
 
         <Button
           height={55}
           width={320}
           borderRadius={15}
-          marginTop={40}
+          marginTop={20}
           title="Login"
           textColor={Colors.white}
           onClick={onSubmit}

@@ -13,82 +13,22 @@ import {
 } from 'react-native';
 import {styles} from './MessageScreen.style';
 import {Colors} from '../../utils/assets/Colors';
+import {useDispatch, useSelector} from 'react-redux';
+import {GetCurrentUser} from '../../redux/selectors/UserSelectors';
+import {GetMessages} from '../../redux/selectors/MessageSelectors';
+import {sendMesage} from '../../redux/action/MessageAction';
 
 export interface T_ChatDataType {
   message: string;
   sender: string;
-  receiver?: string;
-  time?: string;
-  name: string;
+  time: string;
 }
 
 const MessageScreen = () => {
-  const [currentUser] = useState({
-    name: 'John Doe',
-  });
-
+  const dispatch = useDispatch();
+  const currentUser = useSelector(GetCurrentUser());
+  const messageList = useSelector(GetMessages());
   const [inputMessage, setInputMessage] = useState('');
-
-  const [messages, setMessages] = useState([
-    {sender: 'John Doe', message: 'Hey there!', time: '6:01 PM'},
-    {
-      sender: 'Robert Henry',
-      message: 'Hello, how are you doing?',
-      time: '6:02 PM',
-    },
-    {sender: 'John Doe', message: 'Hey there!', time: '6:01 PM'},
-    {
-      sender: 'Robert Henry',
-      message: 'Hello, how are you doing?',
-      time: '6:02 PM',
-    },
-    {sender: 'John Doe', message: 'Hey there!', time: '6:01 PM'},
-    {
-      sender: 'Robert Henry',
-      message: 'Hello, how are you doing?',
-      time: '6:02 PM',
-    },
-    {
-      sender: 'John Doe',
-      message: 'I am good, how about you?',
-      time: '6:02 PM',
-    },
-    {
-      sender: 'John Doe',
-      message: '😊😇',
-      time: '6:02 PM',
-    },
-    {
-      sender: 'Robert Henry',
-      message: "Can't wait to meet you.",
-      time: '6:03 PM',
-    },
-    {
-      sender: 'John Doe',
-      message: "That's great, when are you coming?",
-      time: '6:03 PM',
-    },
-    {
-      sender: 'Robert Henry',
-      message: 'This weekend.',
-      time: '6:03 PM',
-    },
-    {
-      sender: 'Robert Henry',
-      message: 'Around 4 to 6 PM.',
-      time: '6:04 PM',
-    },
-    {
-      sender: 'John Doe',
-      message: "Great, don't forget to bring me some mangoes.",
-      time: '6:05 PM',
-    },
-    {
-      sender: 'Robert Henry',
-      message: 'Sure!',
-      time: '6:05 PM',
-    },
-  ]);
 
   const getTime = (date: Date) => {
     var hours = date.getHours();
@@ -106,15 +46,67 @@ const MessageScreen = () => {
       return setInputMessage('');
     }
     let t = getTime(new Date());
-    setMessages([
-      ...messages,
-      {
-        sender: currentUser.name,
-        message: inputMessage,
-        time: t,
-      },
-    ]);
-    setInputMessage('');
+    if (currentUser.username && inputMessage && t) {
+      dispatch(
+        sendMesage({
+          sender: currentUser.username,
+          message: inputMessage,
+          time: t,
+        }) as any,
+      );
+      setInputMessage('');
+    }
+  };
+
+  const renderItem = (item: T_ChatDataType) => {
+    return (
+      <TouchableWithoutFeedback>
+        <View style={styles.chatBottomStyle}>
+          <View
+            style={{
+              maxWidth: Dimensions.get('screen').width * 0.8,
+              marginHorizontal: 10,
+              padding: 10,
+              borderRadius: 8,
+              backgroundColor:
+                item.sender === currentUser.username
+                  ? Colors.primary
+                  : '#36454F',
+              alignSelf:
+                item.sender === currentUser.username
+                  ? 'flex-end'
+                  : 'flex-start',
+              borderBottomLeftRadius:
+                item.sender === currentUser.username ? 8 : 0,
+              borderBottomRightRadius:
+                item.sender === currentUser.username ? 0 : 8,
+            }}>
+            <Text
+              style={{
+                color:
+                  item.sender === currentUser.username
+                    ? Colors.white
+                    : Colors.white,
+                fontSize: 16,
+              }}>
+              {item.message}
+            </Text>
+            <Text
+              style={{
+                color:
+                  item.sender === currentUser.username ? '#D3D3D3' : '#D3D3D3',
+                fontSize: 14,
+                alignSelf:
+                  item.sender === currentUser.username
+                    ? 'flex-end'
+                    : 'flex-start',
+              }}>
+              {item.time}
+            </Text>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    );
   };
 
   return (
@@ -123,57 +115,8 @@ const MessageScreen = () => {
         <FlatList
           style={{backgroundColor: Colors.white}}
           inverted={true}
-          data={JSON.parse(JSON.stringify(messages)).reverse()}
-          renderItem={({item}) => (
-            <TouchableWithoutFeedback>
-              <View style={styles.chatBottomStyle}>
-                <View
-                  style={{
-                    maxWidth: Dimensions.get('screen').width * 0.8,
-                    marginHorizontal: 10,
-                    padding: 10,
-                    borderRadius: 8,
-                    backgroundColor:
-                      item.sender === currentUser.name
-                        ? Colors.primary
-                        : '#36454F',
-                    alignSelf:
-                      item.sender === currentUser.name
-                        ? 'flex-end'
-                        : 'flex-start',
-                    borderBottomLeftRadius:
-                      item.sender === currentUser.name ? 8 : 0,
-                    borderBottomRightRadius:
-                      item.sender === currentUser.name ? 0 : 8,
-                  }}>
-                  <Text
-                    style={{
-                      color:
-                        item.sender === currentUser.name
-                          ? Colors.white
-                          : Colors.white,
-                      fontSize: 16,
-                    }}>
-                    {item.message}
-                  </Text>
-                  <Text
-                    style={{
-                      color:
-                        item.sender === currentUser.name
-                          ? '#D3D3D3'
-                          : '#D3D3D3',
-                      fontSize: 14,
-                      alignSelf:
-                        item.sender === currentUser.name
-                          ? 'flex-end'
-                          : 'flex-start',
-                    }}>
-                    {item.time}
-                  </Text>
-                </View>
-              </View>
-            </TouchableWithoutFeedback>
-          )}
+          data={JSON.parse(JSON.stringify(messageList)).reverse()}
+          renderItem={({item}) => renderItem(item)}
         />
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={110}>
           <View style={styles.textBoxContainer}>
